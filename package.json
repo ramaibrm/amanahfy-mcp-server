@@ -1,0 +1,114 @@
+{
+	"name": "amanahfy-ai-mcp",
+    "version": "1.0.0",
+	"description": "TypeScript MCP server boilerplate with STDIO and HTTP transport support, CLI tools, and extensible architecture",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "commonjs",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Amanahfy/amanahfy-ai-mcp.git"
+	},
+	"bin": {
+		"mcp-server": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"prepare": "npm run build && node scripts/ensure-executable.js",
+		"postinstall": "node scripts/ensure-executable.js",
+		"clean": "rm -rf dist coverage",
+		"test": "jest",
+		"test:coverage": "jest --coverage",
+		"lint": "eslint src --ext .ts --config eslint.config.mjs",
+		"update:deps": "npx npm-check-updates -u && npm install --legacy-peer-deps",
+		"format": "prettier --write 'src/**/*.ts' 'scripts/**/*.js'",
+		"cli": "npm run build && node dist/index.js",
+		"mcp:stdio": "npm run build && cross-env TRANSPORT_MODE=stdio node dist/index.js",
+		"mcp:http": "npm run build && cross-env TRANSPORT_MODE=http node dist/index.js",
+		"mcp:inspect": "npm run build && (cross-env TRANSPORT_MODE=http node dist/index.js &) && sleep 2 && npx @modelcontextprotocol/inspector http://localhost:3000/mcp",
+		"dev:stdio": "npm run build && npx @modelcontextprotocol/inspector -e TRANSPORT_MODE=stdio -e DEBUG=true node dist/index.js",
+		"dev:http": "npm run build && cross-env DEBUG=true TRANSPORT_MODE=http node dist/index.js"
+	},
+	"keywords": [
+		"mcp",
+		"model-context-protocol",
+		"typescript",
+		"claude",
+		"anthropic",
+		"ai",
+		"llm",
+		"boilerplate",
+		"server",
+		"stdio",
+		"http",
+		"streamable",
+		"cli",
+		"mcp-server"
+	],
+	"author": "Rama Ibrahim",
+	"license": "ISC",
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.33.0",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/exec": "^7.1.0",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^11.0.4",
+		"@semantic-release/npm": "^12.0.2",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.3",
+		"@types/jest": "^30.0.0",
+		"@types/node": "^24.3.0",
+		"@typescript-eslint/eslint-plugin": "^8.39.1",
+		"cross-env": "^7.0.3",
+		"@typescript-eslint/parser": "^8.39.1",
+		"eslint": "^9.33.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-prettier": "^5.5.4",
+		"jest": "^30.0.5",
+		"prettier": "^3.6.2",
+		"semantic-release": "^24.2.7",
+		"ts-jest": "^29.4.1",
+		"typescript": "^5.9.2",
+		"typescript-eslint": "^8.39.1"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/sdk": "^1.17.3",
+		"commander": "^14.0.0",
+		"cors": "^2.8.5",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"zod": "^3.25.76"
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	},
+	"jest": {
+		"preset": "ts-jest",
+		"testEnvironment": "node",
+		"testMatch": [
+			"**/src/**/*.test.ts"
+		],
+		"collectCoverageFrom": [
+			"src/**/*.ts",
+			"!src/**/*.test.ts"
+		],
+		"transform": {
+			"^.+\\.tsx?$": [
+				"ts-jest",
+				{
+					"useESM": true
+				}
+			]
+		},
+		"moduleNameMapper": {
+			"(.*)\\.(js|jsx)$": "$1"
+		},
+		"extensionsToTreatAsEsm": [
+			".ts"
+		]
+	}
+}
