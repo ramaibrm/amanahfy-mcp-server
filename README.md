@@ -193,8 +193,6 @@ Enable detailed logging:
 DEBUG=true
 NODE_ENV=development
 ```
-
-Logs are saved to: `~/.mcp/data/campaign-agent-mcp-server.{session-id}.log`
 ---
 
 **Need help?** Open an issue or check the troubleshooting section above.
